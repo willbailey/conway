@@ -27,12 +27,13 @@
 # *[full article on wikipedia](http://en.wikipedia.org/wiki/Conway's_Game_of_Life#Algorithms)*
 
 # First we define some constants that will govern how the simulation runs.
-GRID_SIZE                = 100 
+GRID_SIZE                = 50 
 CANVAS_SIZE              = 500 
-LIVE_COLOR               = '#000' 
-DEAD_COLOR               = '#FFF' 
+LINE_COLOR               = '#222'
+LIVE_COLOR               = '#222' 
+DEAD_COLOR               = '#fff' 
 INITIAL_LIFE_PROBABILITY = .5 
-ANIMATION_RATE           = 20
+ANIMATION_RATE           = 80
 
 class GameOfLife
 
@@ -108,6 +109,7 @@ class GameOfLife
     @context  ||= @createDrawingContext()
     @cellsize ||= CANVAS_SIZE/GRID_SIZE
     coords = [cell.row * @cellsize, cell.col * @cellsize, @cellsize, @cellsize]
+    @context.strokeStyle = LINE_COLOR
     @context.strokeRect.apply @context, coords
     @context.fillStyle = if cell.live then LIVE_COLOR else DEAD_COLOR
     @context.fillRect.apply @context, coords 

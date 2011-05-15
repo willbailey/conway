@@ -1,12 +1,13 @@
 (function() {
-  var ANIMATION_RATE, CANVAS_SIZE, DEAD_COLOR, GRID_SIZE, GameOfLife, INITIAL_LIFE_PROBABILITY, LIVE_COLOR;
+  var ANIMATION_RATE, CANVAS_SIZE, DEAD_COLOR, GRID_SIZE, GameOfLife, INITIAL_LIFE_PROBABILITY, LINE_COLOR, LIVE_COLOR;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  GRID_SIZE = 100;
+  GRID_SIZE = 50;
   CANVAS_SIZE = 500;
-  LIVE_COLOR = '#000';
-  DEAD_COLOR = '#FFF';
+  LINE_COLOR = '#222';
+  LIVE_COLOR = '#222';
+  DEAD_COLOR = '#fff';
   INITIAL_LIFE_PROBABILITY = .5;
-  ANIMATION_RATE = 20;
+  ANIMATION_RATE = 80;
   GameOfLife = (function() {
     function GameOfLife() {
       this.circleOfLife = __bind(this.circleOfLife, this);;      this.world = this.createWorld();
@@ -101,6 +102,7 @@
       this.context || (this.context = this.createDrawingContext());
       this.cellsize || (this.cellsize = CANVAS_SIZE / GRID_SIZE);
       coords = [cell.row * this.cellsize, cell.col * this.cellsize, this.cellsize, this.cellsize];
+      this.context.strokeStyle = LINE_COLOR;
       this.context.strokeRect.apply(this.context, coords);
       this.context.fillStyle = cell.live ? LIVE_COLOR : DEAD_COLOR;
       return this.context.fillRect.apply(this.context, coords);
