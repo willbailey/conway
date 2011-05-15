@@ -36,14 +36,11 @@
         col: cell.col,
         live: cell.live
       };
-      if (count < 2) {
+      if (count < 2 || count > 3) {
         cell.live = false;
       }
       if (count === 3) {
         cell.live = true;
-      }
-      if (count > 3) {
-        cell.live = false;
       }
       return cell;
     };
@@ -101,19 +98,20 @@
     };
     GameOfLife.prototype.draw = function(cell) {
       var coords;
-      this.canvas || (this.canvas = this.createCanvas());
+      this.context || (this.context = this.createDrawingContext());
       this.cellsize || (this.cellsize = CANVAS_SIZE / GRID_SIZE);
       coords = [cell.row * this.cellsize, cell.col * this.cellsize, this.cellsize, this.cellsize];
       this.context.strokeRect.apply(this.context, coords);
       this.context.fillStyle = cell.live ? LIVE_COLOR : DEAD_COLOR;
       return this.context.fillRect.apply(this.context, coords);
     };
-    GameOfLife.prototype.createCanvas = function() {
-      this.canvas = document.createElement('canvas');
-      this.canvas.width = CANVAS_SIZE;
-      this.canvas.height = CANVAS_SIZE;
-      document.body.appendChild(this.canvas);
-      return this.context = this.canvas.getContext('2d');
+    GameOfLife.prototype.createDrawingContext = function() {
+      var canvas;
+      canvas = document.createElement('canvas');
+      canvas.width = CANVAS_SIZE;
+      canvas.height = CANVAS_SIZE;
+      document.body.appendChild(canvas);
+      return canvas.getContext('2d');
     };
     return GameOfLife;
   })();
