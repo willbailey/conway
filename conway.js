@@ -1,21 +1,30 @@
 (function() {
-  var ANIMATION_RATE, CANVAS_SIZE, DEAD_COLOR, GRID_SIZE, GameOfLife, INITIAL_LIFE_PROBABILITY, LINE_COLOR, LIVE_COLOR;
+  var GameOfLife, conway;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  GRID_SIZE = 50;
-  CANVAS_SIZE = 500;
-  LINE_COLOR = '#222';
-  LIVE_COLOR = '#222';
-  DEAD_COLOR = '#fff';
-  INITIAL_LIFE_PROBABILITY = .5;
-  ANIMATION_RATE = 80;
   GameOfLife = (function() {
-    function GameOfLife() {
-      this.circleOfLife = __bind(this.circleOfLife, this);;      this.world = this.createWorld();
+    GameOfLife.prototype.gridSize = 50;
+    GameOfLife.prototype.canvasSize = 600;
+    GameOfLife.prototype.lineColor = '#222';
+    GameOfLife.prototype.liveColor = '#222';
+    GameOfLife.prototype.deadColor = '#fff';
+    GameOfLife.prototype.initialLifeProbability = 0.5;
+    GameOfLife.prototype.animationRate = 80;
+    function GameOfLife(options) {
+      var key, value;
+      if (options == null) {
+        options = {};
+      }
+      this.circleOfLife = __bind(this.circleOfLife, this);;
+      for (key in options) {
+        value = options[key];
+        this[key] = value;
+      }
+      this.world = this.createWorld();
       this.circleOfLife();
     }
     GameOfLife.prototype.createWorld = function() {
       return this.travelWorld(__bind(function(cell) {
-        if (Math.random() < INITIAL_LIFE_PROBABILITY) {
+        if (Math.random() < this.initialLifeProbability) {
           cell.live = true;
         }
         return cell;
@@ -27,7 +36,7 @@
         this.draw(cell);
         return this.resolveNextGeneration(cell);
       }, this));
-      return setTimeout(this.circleOfLife, ANIMATION_RATE);
+      return setTimeout(this.circleOfLife, this.animationRate);
     };
     GameOfLife.prototype.resolveNextGeneration = function(cell) {
       var count;
@@ -75,16 +84,16 @@
       return neighbors;
     };
     GameOfLife.prototype.isAlive = function(row, col) {
-      return (this.world[row] != null) && (this.world[row][col] != null) && this.world[row][col].live;
+      return this.world[row] && this.world[row][col] && this.world[row][col].live;
     };
     GameOfLife.prototype.travelWorld = function(callback) {
-      var row, _results;
+      var row, _ref, _results;
       _results = [];
-      for (row = 0; 0 <= GRID_SIZE ? row < GRID_SIZE : row > GRID_SIZE; 0 <= GRID_SIZE ? row++ : row--) {
+      for (row = 0, _ref = this.gridSize; 0 <= _ref ? row < _ref : row > _ref; 0 <= _ref ? row++ : row--) {
         _results.push(__bind(function(row) {
-          var col, _results2;
+          var col, _ref2, _results2;
           _results2 = [];
-          for (col = 0; 0 <= GRID_SIZE ? col < GRID_SIZE : col > GRID_SIZE; 0 <= GRID_SIZE ? col++ : col--) {
+          for (col = 0, _ref2 = this.gridSize; 0 <= _ref2 ? col < _ref2 : col > _ref2; 0 <= _ref2 ? col++ : col--) {
             _results2.push(__bind(function(col) {
               return callback.call(this, {
                 row: row,
@@ -100,24 +109,29 @@
     GameOfLife.prototype.draw = function(cell) {
       var coords;
       this.context || (this.context = this.createDrawingContext());
-      this.cellsize || (this.cellsize = CANVAS_SIZE / GRID_SIZE);
+      this.cellsize || (this.cellsize = this.canvasSize / this.gridSize);
       coords = [cell.row * this.cellsize, cell.col * this.cellsize, this.cellsize, this.cellsize];
-      this.context.strokeStyle = LINE_COLOR;
+      this.context.strokeStyle = this.lineColor;
       this.context.strokeRect.apply(this.context, coords);
-      this.context.fillStyle = cell.live ? LIVE_COLOR : DEAD_COLOR;
+      this.context.fillStyle = cell.live ? this.liveColor : this.deadColor;
       return this.context.fillRect.apply(this.context, coords);
     };
     GameOfLife.prototype.createDrawingContext = function() {
       var canvas;
       canvas = document.createElement('canvas');
-      canvas.width = CANVAS_SIZE;
-      canvas.height = CANVAS_SIZE;
+      canvas.width = this.canvasSize;
+      canvas.height = this.canvasSize;
       document.body.appendChild(canvas);
       return canvas.getContext('2d');
     };
     return GameOfLife;
   })();
-  window.conway = function() {
+  conway = function(options) {
     return new GameOfLife();
   };
+  if (typeof exports !== "undefined" && exports !== null) {
+    exports.conway = conway;
+  } else {
+    window.conway = conway;
+  }
 }).call(this);
