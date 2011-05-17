@@ -99,7 +99,7 @@ class GameOfLife
       for col in [-1..1]
         continue if row is 0 and col is 0
         neighbors++ if @isAlive cell.row + row, cell.col + col
-    neighbors 
+    neighbors
 
   # Safely check if there is a living cell at the specified coordinates without
   # overflowing the bounds of the world
@@ -109,8 +109,8 @@ class GameOfLife
   # each location.
   travelWorld: (callback) ->
     for row in [0...@gridSize]
-        for col in [0...@gridSize] 
-          callback.call this, row: row, col: col
+      for col in [0...@gridSize] 
+        callback.call this, row: row, col: col
 
   # Draw a given cell 
   draw: (cell) ->
