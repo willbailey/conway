@@ -61,7 +61,7 @@ class GameOfLife
   # organisms based on the initialLifeProbability.
   createWorld: ->
     @travelWorld (cell) => 
-      cell.live = yes if Math.random() < @initialLifeProbability
+      cell.live = Math.random() < @initialLifeProbability
       cell
 
   # This is the main run loop for the game. At each step we iterate through
@@ -83,9 +83,9 @@ class GameOfLife
     # Make a copy of the cells current state 
     cell = row: cell.row, col: cell.col, live: cell.live
     # The cell dies if it has less than two or greater than three neighbors
-    cell.live = false if count < 2 or count > 3
+    cell.live = no if count < 2 or count > 3
     # The cell reproduces or lives on if exactly 3 neigbors
-    cell.live = true if count is 3
+    cell.live = yes if count is 3
     cell
 
   # Count the living neighbors of a given cell by iterating around the clock

@@ -24,9 +24,7 @@
     }
     GameOfLife.prototype.createWorld = function() {
       return this.travelWorld(__bind(function(cell) {
-        if (Math.random() < this.initialLifeProbability) {
-          cell.live = true;
-        }
+        cell.live = Math.random() < this.initialLifeProbability;
         return cell;
       }, this));
     };
