@@ -1,5 +1,5 @@
 (function() {
-  var GameOfLife, conway;
+  var GameOfLife;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   GameOfLife = (function() {
     GameOfLife.prototype.gridSize = 50;
@@ -55,31 +55,17 @@
       return cell;
     };
     GameOfLife.prototype.countNeighbors = function(cell) {
-      var neighbors;
+      var col, neighbors, row, _ref, _ref2;
       neighbors = 0;
-      if (this.isAlive(cell.row - 1, cell.col)) {
-        neighbors++;
-      }
-      if (this.isAlive(cell.row - 1, cell.col + 1)) {
-        neighbors++;
-      }
-      if (this.isAlive(cell.row, cell.col + 1)) {
-        neighbors++;
-      }
-      if (this.isAlive(cell.row + 1, cell.col + 1)) {
-        neighbors++;
-      }
-      if (this.isAlive(cell.row + 1, cell.col)) {
-        neighbors++;
-      }
-      if (this.isAlive(cell.row + 1, cell.col - 1)) {
-        neighbors++;
-      }
-      if (this.isAlive(cell.row, cell.col - 1)) {
-        neighbors++;
-      }
-      if (this.isAlive(cell.row - 1, cell.col - 1)) {
-        neighbors++;
+      for (row = _ref = -1; _ref <= 1 ? row <= 1 : row >= 1; _ref <= 1 ? row++ : row--) {
+        for (col = _ref2 = -1; _ref2 <= 1 ? col <= 1 : col >= 1; _ref2 <= 1 ? col++ : col--) {
+          if (row === 0 && col === 0) {
+            continue;
+          }
+          if (this.isAlive(cell.row + row, cell.col + col)) {
+            neighbors++;
+          }
+        }
       }
       return neighbors;
     };
@@ -87,22 +73,20 @@
       return this.world[row] && this.world[row][col] && this.world[row][col].live;
     };
     GameOfLife.prototype.travelWorld = function(callback) {
-      var row, _ref, _results;
+      var col, row, _ref, _results;
       _results = [];
       for (row = 0, _ref = this.gridSize; 0 <= _ref ? row < _ref : row > _ref; 0 <= _ref ? row++ : row--) {
-        _results.push(__bind(function(row) {
-          var col, _ref2, _results2;
+        _results.push((function() {
+          var _ref2, _results2;
           _results2 = [];
           for (col = 0, _ref2 = this.gridSize; 0 <= _ref2 ? col < _ref2 : col > _ref2; 0 <= _ref2 ? col++ : col--) {
-            _results2.push(__bind(function(col) {
-              return callback.call(this, {
-                row: row,
-                col: col
-              });
-            }, this)(col));
+            _results2.push(callback.call(this, {
+              row: row,
+              col: col
+            }));
           }
           return _results2;
-        }, this)(row));
+        }).call(this));
       }
       return _results;
     };
@@ -126,12 +110,10 @@
     };
     return GameOfLife;
   })();
-  conway = function(options) {
-    return new GameOfLife();
+  window.conway = function(options) {
+    if (options == null) {
+      options = {};
+    }
+    return new GameOfLife(options);
   };
-  if (typeof exports !== "undefined" && exports !== null) {
-    exports.conway = conway;
-  } else {
-    window.conway = conway;
-  }
 }).call(this);

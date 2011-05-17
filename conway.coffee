@@ -85,7 +85,7 @@ class GameOfLife
     # The cell dies if it has less than two or greater than three neighbors
     cell.live = false if count < 2 or count > 3
     # The cell reproduces or lives on if exactly 3 neigbors
-    cell.live = true  if count == 3
+    cell.live = true if count is 3
     cell
 
   # Count the living neighbors of a given cell by iterating around the clock
@@ -95,15 +95,11 @@ class GameOfLife
     neighbors = 0
     # Iterate around each neighbor of the cell and check for signs of life.
     # If the neighbor is alive increment the neighbors counter.
-    neighbors++ if @isAlive cell.row - 1, cell.col
-    neighbors++ if @isAlive cell.row - 1, cell.col + 1
-    neighbors++ if @isAlive cell.row,     cell.col + 1
-    neighbors++ if @isAlive cell.row + 1, cell.col + 1
-    neighbors++ if @isAlive cell.row + 1, cell.col
-    neighbors++ if @isAlive cell.row + 1, cell.col - 1
-    neighbors++ if @isAlive cell.row,     cell.col - 1
-    neighbors++ if @isAlive cell.row - 1, cell.col - 1
-    neighbors
+    for row in [-1..1]
+      for col in [-1..1]
+        continue if row is 0 and col is 0
+        neighbors++ if @isAlive cell.row + row, cell.col + col
+    neighbors 
 
   # Safely check if there is a living cell at the specified coordinates without
   # overflowing the bounds of the world
@@ -113,9 +109,8 @@ class GameOfLife
   # each location.
   travelWorld: (callback) ->
     for row in [0...@gridSize]
-      do (row) =>
         for col in [0...@gridSize] 
-          do (col) => callback.call this, row: row, col: col
+          callback.call this, row: row, col: col
 
   # Draw a given cell 
   draw: (cell) ->
@@ -137,8 +132,4 @@ class GameOfLife
 
 # Start the game by creating a new GameOfLife instance. This function is
 # exported as a global.
-conway = (options) -> new GameOfLife()
-if exports?
-  exports.conway = conway
-else 
-  window.conway = conway
+window.conway = (options = {})-> new GameOfLife(options)
