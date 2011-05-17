@@ -29,25 +29,25 @@
 class GameOfLife
 
   # number of rows and columns to populate
-  gridSize: 50,
+  gridSize: 50
 
   # size of the canvas 
-  canvasSize: 600,
+  canvasSize: 600
 
   # color to use for the lines on the grid
-  lineColor: '#cdcdcd',
+  lineColor: '#cdcdcd'
 
   # color to use for live cells on the grid
-  liveColor: '#666',
+  liveColor: '#666'
 
   # color to use for dead cells on the grid
-  deadColor: '#eee',
+  deadColor: '#eee'
 
   # initial probablity that a given cell will be live
-  initialLifeProbability: 0.5,
+  initialLifeProbability: 0.5
 
   # how fast to redraw the world in milliseconds
-  animationRate: 60,
+  animationRate: 60
 
   # In the constructor for the GameOfLife class we extend the game with any 
   # passed in options, set the initial state of the world, and start the 
