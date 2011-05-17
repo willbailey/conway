@@ -35,19 +35,19 @@ class GameOfLife
   canvasSize: 600,
 
   # color to use for the lines on the grid
-  lineColor: '#222',
+  lineColor: '#cdcdcd',
 
   # color to use for live cells on the grid
-  liveColor: '#222',
+  liveColor: '#666',
 
   # color to use for dead cells on the grid
-  deadColor: '#fff',
+  deadColor: '#eee',
 
   # initial probablity that a given cell will be live
   initialLifeProbability: 0.5,
 
   # how fast to redraw the world in milliseconds
-  animationRate: 80,
+  animationRate: 60,
 
   # In the constructor for the GameOfLife class we extend the game with any 
   # passed in options, set the initial state of the world, and start the 

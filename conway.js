@@ -4,11 +4,11 @@
   GameOfLife = (function() {
     GameOfLife.prototype.gridSize = 50;
     GameOfLife.prototype.canvasSize = 600;
-    GameOfLife.prototype.lineColor = '#222';
-    GameOfLife.prototype.liveColor = '#222';
-    GameOfLife.prototype.deadColor = '#fff';
+    GameOfLife.prototype.lineColor = '#cdcdcd';
+    GameOfLife.prototype.liveColor = '#666';
+    GameOfLife.prototype.deadColor = '#eee';
     GameOfLife.prototype.initialLifeProbability = 0.5;
-    GameOfLife.prototype.animationRate = 80;
+    GameOfLife.prototype.animationRate = 60;
     function GameOfLife(options) {
       var key, value;
       if (options == null) {
