@@ -55,7 +55,8 @@ class GameOfLife
   constructor: (options = {}) ->
     this[key] = value for key, value of options
     @world    = @createWorld()
-    @circleOfLife()
+    do @circleOfLife
+    null
 
   # We iterate the world passing a callback that populates it with initial
   # organisms based on the initialLifeProbability.
@@ -82,10 +83,10 @@ class GameOfLife
     count = @countNeighbors cell
     # Make a copy of the cells current state
     cell = row: cell.row, col: cell.col, live: cell.live
-    # The cell dies if it has less than two or greater than three neighbors
-    cell.live = no if count < 2 or count > 3
-    # The cell reproduces or lives on if exactly 3 neighbors
-    cell.live = yes if count is 3
+    # A living cell dies if it has less than two or greater than three living neighbors
+    # A nonliving cell reproduces if it has exactly 3 living neighbors
+    if cell.live or count is 3
+      cell.live = 1 < count < 4
     cell
 
   # Count the living neighbors of a given cell by iterating around the clock
@@ -96,14 +97,13 @@ class GameOfLife
     # Iterate around each neighbor of the cell and check for signs of life.
     # If the neighbor is alive increment the neighbors counter.
     for row in [-1..1]
-      for col in [-1..1]
-        continue if row is 0 and col is 0
-        neighbors++ if @isAlive cell.row + row, cell.col + col
+      for col in [-1..1] when (row or col) and @isAlive cell.row + row, cell.col + col
+        ++neighbors
     neighbors
 
   # Safely check if there is a living cell at the specified coordinates without
   # overflowing the bounds of the world
-  isAlive: (row, col) -> @world[row] and @world[row][col] and @world[row][col].live
+  isAlive: (row, col) -> !!@world[row]?[col]?.live
 
   # Iterate through the grid of the world and fire the passed in callback at
   # each location.
@@ -132,4 +132,4 @@ class GameOfLife
 
 # Start the game by creating a new GameOfLife instance. This function is
 # exported as a global.
-window.conway = (options = {})-> new GameOfLife(options)
+window.conway = (options = {})-> new GameOfLife options
