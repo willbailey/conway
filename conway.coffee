@@ -1,7 +1,7 @@
 # ### Conway's Game of Life
 
 # ![glider.png](glider.png)
-# 
+#
 # The universe of the Game of Life is an infinite two-dimensional orthogonal
 # grid of square cells, each of which is in one of two possible states, live or
 # dead.  Every cell interacts with its eight neighbours, which are the cells that
@@ -9,13 +9,13 @@
 # following transitions occur:
 #
 # * Any live cell with fewer than two live neighbours dies, as if caused by
-# under-population.  
+# under-population.
 # * Any live cell with two or three live neighbours lives on to
-# the next generation.  
+# the next generation.
 # * Any live cell with more than three live neighbours dies,
-# as if by overcrowding.  
+# as if by overcrowding.
 # * Any dead cell with exactly three live neighbours
-# becomes a live cell, as if by reproduction.  
+# becomes a live cell, as if by reproduction.
 
 # The initial pattern constitutes the seed of the system. The first generation is
 # created by applying the above rules simultaneously to every cell in the
@@ -23,7 +23,7 @@
 # which this happens is sometimes called a tick (in other words, each generation
 # is a pure function of the preceding one). The rules continue to be applied
 # repeatedly to create further generations.
-# 
+#
 # *[full article on wikipedia](http://en.wikipedia.org/wiki/Conway's_Game_of_Life#Algorithms)*
 
 class GameOfLife
@@ -31,7 +31,7 @@ class GameOfLife
   # number of rows and columns to populate
   gridSize: 50
 
-  # size of the canvas 
+  # size of the canvas
   canvasSize: 600
 
   # color to use for the lines on the grid
@@ -49,38 +49,38 @@ class GameOfLife
   # how fast to redraw the world in milliseconds
   animationRate: 60
 
-  # In the constructor for the GameOfLife class we extend the game with any 
-  # passed in options, set the initial state of the world, and start the 
+  # In the constructor for the GameOfLife class we extend the game with any
+  # passed in options, set the initial state of the world, and start the
   # circleOfLife.
   constructor: (options = {}) ->
-    this[key] = value for key, value of options    
+    this[key] = value for key, value of options
     @world    = @createWorld()
     @circleOfLife()
 
   # We iterate the world passing a callback that populates it with initial
   # organisms based on the initialLifeProbability.
   createWorld: ->
-    @travelWorld (cell) => 
+    @travelWorld (cell) =>
       cell.live = Math.random() < @initialLifeProbability
       cell
 
   # This is the main run loop for the game. At each step we iterate through
-  # the world drawing each cell and resolving the next generation for that 
+  # the world drawing each cell and resolving the next generation for that
   # cell. The results of this process become the state of the world for the
   # next generation.
   circleOfLife: =>
     @world = @travelWorld (cell) =>
       cell = @world[cell.row][cell.col]
-      @draw cell 
+      @draw cell
       @resolveNextGeneration cell
     setTimeout @circleOfLife, @animationRate
 
-  # Given a cell we determine if it should be live or dead in the next 
+  # Given a cell we determine if it should be live or dead in the next
   # generation based on Conway's rules.
-  resolveNextGeneration: (cell) -> 
+  resolveNextGeneration: (cell) ->
     # Determine the number of living neighbors.
     count = @countNeighbors cell
-    # Make a copy of the cells current state 
+    # Make a copy of the cells current state
     cell = row: cell.row, col: cell.col, live: cell.live
     # The cell dies if it has less than two or greater than three neighbors
     cell.live = no if count < 2 or count > 3
@@ -105,14 +105,14 @@ class GameOfLife
   # overflowing the bounds of the world
   isAlive: (row, col) -> @world[row] and @world[row][col] and @world[row][col].live
 
-  # Iterate through the grid of the world and fire the passed in callback at 
+  # Iterate through the grid of the world and fire the passed in callback at
   # each location.
   travelWorld: (callback) ->
     for row in [0...@gridSize]
-      for col in [0...@gridSize] 
+      for col in [0...@gridSize]
         callback.call this, row: row, col: col
 
-  # Draw a given cell 
+  # Draw a given cell
   draw: (cell) ->
     @context  ||= @createDrawingContext()
     @cellsize ||= @canvasSize/@gridSize
@@ -120,7 +120,7 @@ class GameOfLife
     @context.strokeStyle = @lineColor
     @context.strokeRect.apply @context, coords
     @context.fillStyle = if cell.live then @liveColor else @deadColor
-    @context.fillRect.apply @context, coords 
+    @context.fillRect.apply @context, coords
 
   # Create the canvas drawing context.
   createDrawingContext: ->
