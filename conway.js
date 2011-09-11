@@ -11,16 +11,15 @@
     GameOfLife.prototype.animationRate = 60;
     function GameOfLife(options) {
       var key, value;
-      if (options == null) {
-        options = {};
-      }
-      this.circleOfLife = __bind(this.circleOfLife, this);;
+      if (options == null) options = {};
+      this.circleOfLife = __bind(this.circleOfLife, this);
       for (key in options) {
         value = options[key];
         this[key] = value;
       }
       this.world = this.createWorld();
       this.circleOfLife();
+      null;
     }
     GameOfLife.prototype.createWorld = function() {
       return this.travelWorld(__bind(function(cell) {
@@ -44,31 +43,24 @@
         col: cell.col,
         live: cell.live
       };
-      if (count < 2 || count > 3) {
-        cell.live = false;
-      }
-      if (count === 3) {
-        cell.live = true;
-      }
+      if (cell.live || count === 3) cell.live = (1 < count && count < 4);
       return cell;
     };
     GameOfLife.prototype.countNeighbors = function(cell) {
-      var col, neighbors, row, _ref, _ref2;
+      var col, neighbors, row;
       neighbors = 0;
-      for (row = _ref = -1; _ref <= 1 ? row <= 1 : row >= 1; _ref <= 1 ? row++ : row--) {
-        for (col = _ref2 = -1; _ref2 <= 1 ? col <= 1 : col >= 1; _ref2 <= 1 ? col++ : col--) {
-          if (row === 0 && col === 0) {
-            continue;
-          }
-          if (this.isAlive(cell.row + row, cell.col + col)) {
-            neighbors++;
+      for (row = -1; row <= 1; row++) {
+        for (col = -1; col <= 1; col++) {
+          if ((row || col) && this.isAlive(cell.row + row, cell.col + col)) {
+            ++neighbors;
           }
         }
       }
       return neighbors;
     };
     GameOfLife.prototype.isAlive = function(row, col) {
-      return this.world[row] && this.world[row][col] && this.world[row][col].live;
+      var _ref, _ref2;
+      return !!((_ref = this.world[row]) != null ? (_ref2 = _ref[col]) != null ? _ref2.live : void 0 : void 0);
     };
     GameOfLife.prototype.travelWorld = function(callback) {
       var col, row, _ref, _results;
@@ -109,9 +101,7 @@
     return GameOfLife;
   })();
   window.conway = function(options) {
-    if (options == null) {
-      options = {};
-    }
+    if (options == null) options = {};
     return new GameOfLife(options);
   };
 }).call(this);
