@@ -4,17 +4,17 @@
 #
 # The universe of the Game of Life is an infinite two-dimensional orthogonal
 # grid of square cells, each of which is in one of two possible states, live or
-# dead.  Every cell interacts with its eight neighbours, which are the cells that
+# dead.  Every cell interacts with its eight neighbors, which are the cells that
 # are horizontally, vertically, or diagonally adjacent. At each step in time, the
 # following transitions occur:
 #
-# * Any live cell with fewer than two live neighbours dies, as if caused by
+# * Any live cell with fewer than two live neighbors dies, as if caused by
 # under-population.
-# * Any live cell with two or three live neighbours lives on to
+# * Any live cell with two or three live neighbors lives on to
 # the next generation.
-# * Any live cell with more than three live neighbours dies,
+# * Any live cell with more than three live neighbors dies,
 # as if by overcrowding.
-# * Any dead cell with exactly three live neighbours
+# * Any dead cell with exactly three live neighbors
 # becomes a live cell, as if by reproduction.
 
 # The initial pattern constitutes the seed of the system. The first generation is
@@ -43,7 +43,7 @@ class GameOfLife
   # color to use for dead cells on the grid
   deadColor: '#eee'
 
-  # initial probablity that a given cell will be live
+  # initial probability that a given cell will be live
   initialLifeProbability: 0.5
 
   # how fast to redraw the world in milliseconds
@@ -84,13 +84,13 @@ class GameOfLife
     cell = row: cell.row, col: cell.col, live: cell.live
     # The cell dies if it has less than two or greater than three neighbors
     cell.live = no if count < 2 or count > 3
-    # The cell reproduces or lives on if exactly 3 neigbors
+    # The cell reproduces or lives on if exactly 3 neighbors
     cell.live = yes if count is 3
     cell
 
   # Count the living neighbors of a given cell by iterating around the clock
   # and checking each neighbor. The helper function isAlive allows for safely
-  # checking without worrying about the boundries of the world.
+  # checking without worrying about the boundaries of the world.
   countNeighbors: (cell) ->
     neighbors = 0
     # Iterate around each neighbor of the cell and check for signs of life.
