@@ -3,7 +3,9 @@
   "description": "Simple implementation of Conway's Game of Life in CoffeeScript",
   "version": "0.0.2",
   "author": "Will Bailey <will.bailey@gmail.com>",
-  "directories.doc": "docs",
+  "directories": {
+    "doc": "docs"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/willbailey/conway.git"
