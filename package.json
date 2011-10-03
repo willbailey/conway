@@ -1,7 +1,7 @@
 {
   "name": "conway",
   "description": "Simple implementation of Conway's Game of Life in CoffeeScript",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Will Bailey <will.bailey@gmail.com>",
   "directories": {
     "doc": "docs"
